@@ -15,6 +15,7 @@ namespace Tron
         internal const string START_MUSIC_EVENT = "BKR_DEADLINE_START_MUSIC";
         internal const string STOP_MUSIC_EVENT = "FM_SUDDEN_DEATH_STOP_MUSIC";
         internal const string SCREEN_EFFECT = "DeadlineNeon";
+        private static readonly uint[] VALID_MODELS = new uint[2] { (uint)GetHashKey("deathbike2"), (uint)GetHashKey("shotaro") };
 
         /// <summary>
         /// Loads the required texture dict.
@@ -46,6 +47,11 @@ namespace Tron
                 AnimpostfxStop(SCREEN_EFFECT);
             }
             TriggerMusicEvent(STOP_MUSIC_EVENT);
+        }
+
+        internal static bool IsValidModel(uint model)
+        {
+            return VALID_MODELS.Contains(model);
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Tron
         internal const int ALPHA_FADE_THRESHOLD = (int)(MAX_LINE_POSITIONS * 0.90);
 
         // I do not recommend changing any of these constants, by doing that you risk breaking the core functionality.
-        internal static readonly uint SHOTARO_HASH = (uint)GetHashKey("SHOTARO");
         internal const string BONE_NAME = "wheel_lr";
         internal const float LEAN_OFFSET_REDUCER = 0.4f;
         internal const int FPS = 1000 / 30;
@@ -44,7 +43,7 @@ namespace Tron
             }
 
             Vehicle vehicle = Game.PlayerPed.CurrentVehicle;
-            if (vehicle == null || (uint)vehicle.Model.Hash != SHOTARO_HASH)
+            if (vehicle == null || !Utils.IsValidModel((uint)vehicle.Model.Hash))
             {
                 await Task.FromResult(0);
                 return;

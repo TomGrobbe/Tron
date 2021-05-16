@@ -1,0 +1,19 @@
+pull_requests:
+  do_not_increment_build_number: false
+image: Visual Studio 2019
+configuration: Release
+before_build:
+  - nuget restore Tron\Tron.sln
+build:
+  parallel: true
+  project: Tron\Tron.sln
+  include_nuget_references: true
+  verbosity: minimal
+after_build:
+  - cmd: mkdir build
+  - cmd: copy *.md build\
+  - cmd: copy *.lua build\
+  - cmd: copy Tron\Tron\bin\Release\Tron.net.dll build\
+  - cmd: if %APPVEYOR_REPO_TAG%==true (appveyor SetVariable -Name VERSION_NAME -Value %APPVEYOR_REPO_TAG_NAME%) else (appveyor SetVariable -Name VERSION_NAME -Value beta-%APPVEYOR_REPO_COMMIT:~0,7%)
+  - cmd: cd build && 7z a "Tron-%VERSION_NAME%.zip" -r *
+  - cmd: appveyor PushArtifact Tron-%VERSION_NAME%.zip
